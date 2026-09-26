@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dra. Aline Werneck - Especialidades Veterinárias</title>
+    <title>Dra. Aline Werneck - Medicina Veterinária Especializada</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,119 +11,131 @@
             theme: {
                 extend: {
                     colors: {
-                        vetLavender: '#f4eff8',
-                        vetPurpleDark: '#3b2238',
-                        vetPurpleMid: '#7a5275',
-                        vetAccent: '#bfa7bc'
+                        vetLavender: '#f4eff8', /* Tom de lilás suave e acolhedor de fundo */
+                        vetSurface: '#ffffff',
+                        vetPurpleDark: '#3b2238', /* Tom escuro principal */
+                        vetPurpleMid: '#7a5275', /* Tom de lilás/roxo intermediário elegante */
+                        vetAccent: '#bfa7bc',     /* Tom de destaque suave */
+                        vetBorder: '#e6d8e3'      /* Borda em tom harmônico */
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-vetLavender text-vetPurpleDark font-sans antialiased selection:bg-vetPurpleMid selection:text-white">
+<body class="bg-vetLavender text-vetPurpleDark font-sans antialiased selection:bg-vetPurpleMid selection:text-white flex flex-col min-h-screen">
 
-<!-- Header / Navbar Minimalista (Estilo Apple) -->
-<header class="sticky top-0 z-50 backdrop-blur-md bg-vetLavender/80 border-b border-vetAccent/20 px-8 py-4 flex justify-between items-center max-w-5xl mx-auto">
-    <div class="font-bold tracking-wider text-lg uppercase text-vetPurpleDark">
-        <h2 class="font-bold tracking-wide text-base text-vetPurpleDark">Dra. Aline Werneck</h2>
-        <p class="text-xs text-vetPurpleMid font-normal">CRMV: 51521-SP</p>
-    </div>
-    <div class="text-xs uppercase tracking-widest text-vetPurpleMid font-semibold hidden sm:block">
-        🐾 Medicina Veterinária Especializada
+<!-- Header / Navbar Minimalista (Estilo Apple Glass) -->
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-vetLavender/70 border-b border-vetBorder px-6 py-4 transition-all">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <div>
+            <h2 class="font-semibold tracking-tight text-base text-vetPurpleDark">Dra. Aline Werneck</h2>
+            <p class="text-xs text-vetPurpleMid tracking-wide font-normal">CRMV: 51521-SP</p>
+        </div>
+        <div class="text-xs uppercase tracking-widest text-vetPurpleMid/80 font-medium hidden sm:flex items-center gap-1.5 bg-vetBorder/40 px-3 py-1.5 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Atendimento Especializado
+        </div>
     </div>
 </header>
 
 <!-- Hero Section -->
-<main class="max-w-4xl mx-auto px-6 py-12 space-y-16">
+<main class="max-w-3xl mx-auto px-6 py-16 space-y-12 flex-grow w-full">
 
-    <section class="text-space space-y-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-vetPurpleDark">
-            MEUS SERVIÇOS
+    <section class="space-y-3 text-center">
+        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-vetPurpleDark">
+            Especialidades Veterinárias
         </h1>
-        <p class="text-vetPurpleMid text-sm md:text-base italic tracking-wide">
-            "sempre com muito acolhimento e carinho."
+        <p class="text-vetPurpleMid text-base md:text-lg font-light tracking-wide max-w-lg mx-auto">
+            Medicina avançada com acolhimento, precisão e muito carinho para o seu pet.
         </p>
     </section>
 
-    <!-- Grid de Serviços (Estilo Clean / Apple Cards) -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Grid de Serviços (Estilo Apple Bento / Clean Cards) -->
+    <section class="space-y-3">
+        <p class="text-xs font-semibold uppercase tracking-wider text-vetPurpleMid/70 px-1">Selecione o serviço desejado</p>
 
-        <div onclick="selecionarServico('Consulta oncológica')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
-            <span class="text-3xl">🩺</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Consulta oncológica</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Avaliação especializada e direcionada</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+            <div onclick="selecionarServico('Consulta oncológica', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">🩺</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Consulta oncológica</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Avaliação especializada e direcionada</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Consulta clínica geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 border-vetPurpleDark bg-white ring-2 ring-vetPurpleDark/20">
-            <span class="text-3xl">🐾</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Consulta clínica geral</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Check-up e cuidados essenciais</p>
+            <div onclick="selecionarServico('Consulta clínica geral', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group border-vetPurpleDark ring-1 ring-vetPurpleDark">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">🐾</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Consulta clínica geral</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Check-up e cuidados essenciais</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Cirurgia oncológica')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
-            <span class="text-3xl">🔬</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Cirurgia oncológica</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Precisão e segurança no procedimento</p>
+            <div onclick="selecionarServico('Cirurgia oncológica', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">🔬</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Cirurgia oncológica</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Precisão e segurança no procedimento</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Cirurgia geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
-            <span class="text-3xl">⚡</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Cirurgia geral</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Procedimentos cirúrgicos gerais</p>
+            <div onclick="selecionarServico('Cirurgia geral', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">⚡</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Cirurgia geral</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Procedimentos cirúrgicos gerais</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Eletroquimioterapia')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
-            <span class="text-3xl">💡</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Eletroquimioterapia</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Tecnologia avançada de tratamento</p>
+            <div onclick="selecionarServico('Eletroquimioterapia', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">💡</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Eletroquimioterapia</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Tecnologia avançada de tratamento</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Quimioterapia convencional')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
-            <span class="text-3xl">🧬</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Quimioterapia convencional</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Protocolos individualizados</p>
+            <div onclick="selecionarServico('Quimioterapia convencional', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">🧬</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Quimioterapia convencional</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Protocolos individualizados</p>
+                </div>
             </div>
-        </div>
 
-        <div onclick="selecionarServico('Ozonioterapia')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 md:col-span-2">
-            <span class="text-3xl">🌿</span>
-            <div>
-                <h3 class="font-semibold text-vetPurpleDark text-lg">Ozonioterapia</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Medicina integrativa e suporte regenerativo</p>
+            <div onclick="selecionarServico('Ozonioterapia', event)" class="service-card cursor-pointer p-5 bg-vetSurface hover:bg-white border border-vetBorder rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 group md:col-span-2">
+                <span class="text-2xl p-2.5 rounded-xl bg-vetLavender group-hover:scale-110 transition-transform">🌿</span>
+                <div>
+                    <h3 class="font-medium text-vetPurpleDark text-sm md:text-base">Ozonioterapia</h3>
+                    <p class="text-xs text-vetPurpleMid/80 mt-0.5">Medicina integrativa e suporte regenerativo</p>
+                </div>
             </div>
-        </div>
 
+        </div>
     </section>
 
-    <!-- Seção de IA e WhatsApp (Estilo Minimalista) -->
-    <section class="bg-white/80 border border-vetAccent/30 p-6 md:p-8 rounded-3xl shadow-sm space-y-6">
+    <!-- Seção de IA e WhatsApp (Apple Form Card) -->
+    <section class="bg-vetSurface border border-vetBorder p-6 md:p-8 rounded-3xl shadow-sm space-y-6">
         <div class="space-y-2">
-            <label for="mensagemCliente" class="block text-sm font-semibold tracking-wide text-vetPurpleDark">
-                Conte um pouco sobre o caso do seu pet ou tire dúvidas:
+            <label for="mensagemCliente" class="block text-sm font-medium text-vetPurpleDark">
+                Conte sobre o caso do seu pet ou tire dúvidas:
             </label>
-            <textarea id="mensagemCliente" rows="3" class="w-full p-4 bg-vetLavender/50 border border-vetAccent/40 rounded-2xl focus:ring-2 focus:ring-vetPurpleMid focus:outline-none text-sm text-vetPurpleDark placeholder-vetPurpleMid/50" placeholder="Ex: Gostaria de agendar uma avaliação para..."></textarea>
+            <textarea id="mensagemCliente" rows="3" class="w-full p-4 bg-vetLavender/60 border border-vetBorder rounded-2xl focus:ring-2 focus:ring-vetPurpleMid/40 focus:outline-none text-sm text-vetPurpleDark placeholder-vetPurpleMid/40 transition-all resize-none" placeholder="Ex: Gostaria de agendar uma avaliação para o meu cachorro que..."></textarea>
         </div>
 
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <button onclick="polirTextoComIA()" class="w-full sm:w-auto px-5 py-2.5 bg-vetPurpleDark/10 text-vetPurpleDark rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-vetPurpleDark/20 transition flex items-center justify-center gap-2">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-1">
+            <button onclick="polirTextoComIA()" class="w-full sm:w-auto px-5 py-2.5 bg-vetPurpleDark/5 text-vetPurpleDark hover:bg-vetPurpleDark/10 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 active:scale-95">
                 ✨ Polir texto com IA
             </button>
-            <span id="aiStatus" class="text-xs text-vetPurpleMid italic"></span>
+            <span id="aiStatus" class="text-xs text-vetPurpleMid italic font-light"></span>
         </div>
 
-        <button onclick="enviarParaWhatsApp()" class="w-full py-4 bg-vetPurpleDark hover:bg-black text-white font-medium rounded-2xl shadow-md transition flex justify-center items-center gap-2 text-sm uppercase tracking-wider">
+        <button onclick="enviarParaWhatsApp()" class="w-full py-4 bg-vetPurpleDark hover:bg-vetPurpleMid text-white font-medium rounded-2xl shadow-sm transition-all duration-300 flex justify-center items-center gap-2 text-xs uppercase tracking-widest active:scale-[0.99]">
             💬 Continuar Atendimento no WhatsApp
         </button>
     </section>
@@ -131,31 +143,28 @@
 </main>
 
 <!-- Footer -->
-<footer class="max-w-4xl mx-auto px-6 py-8 text-center border-t border-vetAccent/20 mt-16 space-y-1">
+<footer class="max-w-3xl mx-auto px-6 py-10 text-center border-t border-vetBorder mt-auto space-y-1">
     <p class="text-xs font-medium text-vetPurpleDark">Dra. Aline Werneck • CRMV: 51521-SP</p>
-    <p class="text-xs text-vetPurpleMid">E-mail: <a href="mailto:alinewerneckvet@gmail.com" class="underline hover:text-vetPurpleDark">alinewerneckvet@gmail.com</a></p>
+    <p class="text-xs text-vetPurpleMid/80 font-light">E-mail: <a href="mailto:alinewerneckvet@gmail.com" class="underline hover:text-vetPurpleDark transition-colors">alinewerneckvet@gmail.com</a></p>
 </footer>
 
 <!-- JavaScript de Integração e Comportamento -->
 <script>
     let servicoSelecionado = "Consulta clínica geral";
 
-    function selecionarServico(servico) {
+    function selecionarServico(servico, event) {
         servicoSelecionado = servico;
         document.querySelectorAll('.service-card').forEach(card => {
-            card.classList.remove('border-vetPurpleDark', 'bg-white', 'ring-2', 'ring-vetPurpleDark/20');
+            card.classList.remove('border-vetPurpleDark', 'ring-1', 'ring-vetPurpleDark');
         });
-        event.currentTarget.classList.add('border-vetPurpleDark', 'bg-white', 'ring-2', 'ring-vetPurpleDark/20');
+        event.currentTarget.classList.add('border-vetPurpleDark', 'ring-1', 'ring-vetPurpleDark');
     }
 
     async function polirTextoComIA() {
         const aiStatus = document.getElementById('aiStatus');
+        const relatoInput = document.getElementById('mensagemCliente');
 
-        // 1. Captura os valores diretamente dos elementos da tela (ajuste os IDs conforme o seu HTML)
-        const servicoSelect = document.getElementById('servicoSelect'); // ou o seletor do serviço
-        const relatoInput = document.getElementById('mensagemCliente');     // ou o id da sua textarea
-
-        const servico = servicoSelect ? servicoSelect.value : "Consulta";
+        const servico = servicoSelecionado || "Consulta clínica geral";
         const relato = relatoInput ? relatoInput.value : "";
 
         if (!relato.trim()) {
@@ -166,7 +175,7 @@
         try {
             if (aiStatus) aiStatus.innerText = "Polindo com IA...";
 
-            const response = await fetch('/api/ia/polir', { // Ajuste para a URL correta do seu endpoint Quarkus
+            const response = await fetch('/api/ia/polir', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -184,7 +193,6 @@
             const data = await response.json();
             const textoPolido = data.textoPolido || relato;
 
-            // 2. Devolve o texto polido de volta para a textarea para o usuário ver
             if (relatoInput) {
                 relatoInput.value = textoPolido;
             }

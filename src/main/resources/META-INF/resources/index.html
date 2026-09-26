@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dra. | Aline Werneck - Especialidades Veterinárias</title>
+    <title>Dra. Aline Werneck - Especialidades Veterinárias</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -19,57 +19,17 @@
                 }
             }
         }
-
-        async function melhorarComIA() {
-            const input = document.getElementById('mensagemCliente');
-            const status = document.getElementById('aiStatus');
-
-            if (!input.value.trim()) {
-                alert("Escreva algo primeiro para a IA poder estruturar o texto!");
-                return;
-            }
-
-            status.textContent = "A Groq IA está a polir o texto...";
-
-            try {
-                const response = await fetch('/api/ia/polir', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        servico: servicoSelecionado,
-                        relato: input.value.trim()
-                    })
-                });
-
-                const data = await response.json();
-                if (data.textoPolido) {
-                    input.value = data.textoPolido;
-                    status.textContent = "Otimizado com sucesso!";
-                } else {
-                    status.textContent = "Erro ao gerar.";
-                }
-            } catch (error) {
-                status.textContent = "Falha na conexão com a IA.";
-            }
-
-            setTimeout(() => status.textContent = "", 4000);
-        }
-
-
-
-
     </script>
 </head>
 <body class="bg-vetLavender text-vetPurpleDark font-sans antialiased selection:bg-vetPurpleMid selection:text-white">
 
 <!-- Header / Navbar Minimalista (Estilo Apple) -->
 <header class="sticky top-0 z-50 backdrop-blur-md bg-vetLavender/80 border-b border-vetAccent/20 px-8 py-4 flex justify-between items-center max-w-5xl mx-auto">
-
     <div class="font-bold tracking-wider text-lg uppercase text-vetPurpleDark">
         <h2 class="font-bold tracking-wide text-base text-vetPurpleDark">Dra. Aline Werneck</h2>
-        <p class="text-xs text-vetPurpleMid">CRMV: 51521-SP</p>
+        <p class="text-xs text-vetPurpleMid font-normal">CRMV: 51521-SP</p>
     </div>
-    <div class="text-xs uppercase tracking-widest text-vetPurpleMid font-semibold">
+    <div class="text-xs uppercase tracking-widest text-vetPurpleMid font-semibold hidden sm:block">
         🐾 Medicina Veterinária Especializada
     </div>
 </header>
@@ -97,7 +57,7 @@
             </div>
         </div>
 
-        <div onclick="selecionarServico('Consulta clínica geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+        <div onclick="selecionarServico('Consulta clínica geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 border-vetPurpleDark bg-white ring-2 ring-vetPurpleDark/20">
             <span class="text-3xl">🐾</span>
             <div>
                 <h3 class="font-semibold text-vetPurpleDark text-lg">Consulta clínica geral</h3>
@@ -109,7 +69,7 @@
             <span class="text-3xl">🔬</span>
             <div>
                 <h3 class="font-semibold text-vetPurpleDark text-lg">Cirurgia oncológica</h3>
-                <p class="text-xs text-vetPurpleMid mt-0.5">Precis和 segurança no procedimento</p>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Precisão e segurança no procedimento</p>
             </div>
         </div>
 
@@ -157,7 +117,7 @@
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <button onclick="melhorarComIA()" class="w-full sm:w-auto px-5 py-2.5 bg-vetPurpleDark/10 text-vetPurpleDark rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-vetPurpleDark/20 transition flex items-center justify-center gap-2">
+            <button onclick="polirTextoComIA()" class="w-full sm:w-auto px-5 py-2.5 bg-vetPurpleDark/10 text-vetPurpleDark rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-vetPurpleDark/20 transition flex items-center justify-center gap-2">
                 ✨ Polir texto com IA
             </button>
             <span id="aiStatus" class="text-xs text-vetPurpleMid italic"></span>
@@ -170,7 +130,13 @@
 
 </main>
 
-<!-- JavaScript de Integração -->
+<!-- Footer -->
+<footer class="max-w-4xl mx-auto px-6 py-8 text-center border-t border-vetAccent/20 mt-16 space-y-1">
+    <p class="text-xs font-medium text-vetPurpleDark">Dra. Aline Werneck • CRMV: 51521-SP</p>
+    <p class="text-xs text-vetPurpleMid">E-mail: <a href="mailto:alinewerneckvet@gmail.com" class="underline hover:text-vetPurpleDark">alinewerneckvet@gmail.com</a></p>
+</footer>
+
+<!-- JavaScript de Integração e Comportamento -->
 <script>
     let servicoSelecionado = "Consulta clínica geral";
 
@@ -182,30 +148,61 @@
         event.currentTarget.classList.add('border-vetPurpleDark', 'bg-white', 'ring-2', 'ring-vetPurpleDark/20');
     }
 
-    function melhorarComIA() {
-        const input = document.getElementById('mensagemCliente');
-        const status = document.getElementById('aiStatus');
+    async function polirTextoComIA() {
+        const aiStatus = document.getElementById('aiStatus');
 
-        if (!input.value.trim()) {
-            alert("Escreva algo primeiro para a IA poder estruturar o texto!");
+        // 1. Captura os valores diretamente dos elementos da tela (ajuste os IDs conforme o seu HTML)
+        const servicoSelect = document.getElementById('servicoSelect'); // ou o seletor do serviço
+        const relatoInput = document.getElementById('mensagemCliente');     // ou o id da sua textarea
+
+        const servico = servicoSelect ? servicoSelect.value : "Consulta";
+        const relato = relatoInput ? relatoInput.value : "";
+
+        if (!relato.trim()) {
+            if (aiStatus) aiStatus.innerText = "Por favor, escreva um relato primeiro.";
             return;
         }
 
-        status.textContent = "Aprimorando mensagem...";
+        try {
+            if (aiStatus) aiStatus.innerText = "Polindo com IA...";
 
-        setTimeout(() => {
-            input.value = `Olá! Gostaria de obter mais informações / agendar o serviço de ${servicoSelecionado}. Histórico/Relato: ${input.value.trim()}`;
-            status.textContent = "Pronto!";
-            setTimeout(() => status.textContent = "", 3000);
-        }, 700);
+            const response = await fetch('/api/ia/polir', { // Ajuste para a URL correta do seu endpoint Quarkus
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    servico: servico,
+                    relato: relato
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro na resposta do servidor');
+            }
+
+            const data = await response.json();
+            const textoPolido = data.textoPolido || relato;
+
+            // 2. Devolve o texto polido de volta para a textarea para o usuário ver
+            if (relatoInput) {
+                relatoInput.value = textoPolido;
+            }
+
+            if (aiStatus) aiStatus.innerText = "Pronto para o WhatsApp! ✨";
+
+        } catch (error) {
+            console.error("Erro:", error);
+            if (aiStatus) aiStatus.innerText = "Mantido o texto original.";
+        }
     }
 
     function enviarParaWhatsApp() {
-        const telefoneClinica = "5511999999999"; // Substituir pelo número correto
+        const telefoneClinica = "5511998045322";
         const mensagemBase = document.getElementById('mensagemCliente').value;
 
         const textoFinal = encodeURIComponent(
-            `Olá! Acessei o site.\n\n*Serviço de interesse:* ${servicoSelecionado}\n*Detalhes:* ${mensagemBase || 'Gostaria de agendar um atendimento.'}`
+            `Olá, Dra. Aline! Acessei o seu site.\n\n*Serviço de interesse:* ${servicoSelecionado}\n*Detalhes:* ${mensagemBase || 'Gostaria de agendar um atendimento.'}`
         );
 
         window.open(`https://wa.me/${telefoneClinica}?text=${textoFinal}`, '_blank');

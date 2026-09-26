@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.vet.wrk.ai.GroqService;
+import org.vet.wrk.response.AnaliseResponse;
 
 import java.util.Map;
 
@@ -15,16 +16,25 @@ import java.util.Map;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AiResource {
 
-    @Inject
-    GroqService groqService;
+    private final GroqService groqService;
+
+    public AiResource(GroqService groqService) {
+        this.groqService = groqService;
+    }
 
     @POST
-    @Path("/polir")
+    @Path("/polir") // ou o caminho que você estiver a utilizar
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Map<String, String> polirTexto(Map<String, String> payload) {
         String servico = payload.getOrDefault("servico", "Consulta");
         String relato = payload.getOrDefault("relato", "");
 
-        String textoPolido = groqService.polirMensagemComIA(servico, relato);
+        AnaliseResponse response = groqService.polirMensagemComGroq(servico, relato);
+
+        String textoPolido = response != null && response.mensagemPolida() != null
+                ? response.mensagemPolida()
+                : relato;
 
         return Map.of("textoPolido", textoPolido);
     }

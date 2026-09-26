@@ -1,78 +1,96 @@
 package org.vet.wrk.ai;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.vet.wrk.response.AnaliseResponse;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class GroqService {
 
-    @ConfigProperty(name = "groq.api.url")
-    String apiUrl;
-
     @ConfigProperty(name = "groq.api.key")
-    String apiKey;
+    String groqApiKey;
 
-    @ConfigProperty(name = "groq.model")
-    String model;
+    @ConfigProperty(name = "groq.model", defaultValue = "llama-3.1-8b-instant")
+    String groqModel;
 
     @Inject
     ObjectMapper objectMapper;
 
-    public String polirMensagemComIA(String servico, String relatoCliente) {
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
+    public AnaliseResponse polirMensagemComGroq(String servico, String relatoCliente) {
+        String systemPrompt = """
+            Você é um assistente virtual acolhedor e profissional de uma clínica veterinária humanizada da Dra. Aline Werneck.
+            O usuário vai fornecer o serviço desejado e um relato simples sobre o pet.
+            Reescreva esse relato de forma educada, clara e profissional para ser enviado via WhatsApp à veterinária.
+            Seja direto, mantenha o tom de acolhimento e não inclua explicações extras, apenas o texto pronto para envio.
+            
+            Responda OBRIGATORIAMENTE em formato JSON válido seguindo exatamente este schema:
+            {
+              "mensagem_polida": "string"
+            }
+            """;
+
+        String userPrompt = """
+            --- SERVIÇO DESEJADO ---
+            %s
+
+            --- RELATO DO TUTOR ---
+            %s
+            """.formatted(servico, relatoCliente);
+
         try {
-            Client client = ClientBuilder.newClient();
+            Map<String, Object> requestBodyMap = Map.of(
+                    "model", groqModel.trim(),
+                    "messages", List.of(
+                            Map.of("role", "system", "content", systemPrompt),
+                            Map.of("role", "user", "content", userPrompt)
+                    ),
+                    "response_format", Map.of("type", "json_object"),
+                    "temperature", 0.7
+            );
 
-            // Montando o payload JSON no formato da API da Groq/OpenAI
-            ObjectNode rootNode = objectMapper.createObjectNode();
-            rootNode.put("model", model);
-            rootNode.put("temperature", 0.7);
+            String jsonBody = objectMapper.writeValueAsString(requestBodyMap);
 
-            ArrayNode messagesArray = objectMapper.createArrayNode();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.groq.com/openai/v1/chat/completions"))
+                    .header("Authorization", "Bearer " + groqApiKey.trim())
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
 
-            // Mensagem de Sistema (Instrução para a IA)
-            ObjectNode systemMessage = objectMapper.createObjectNode();
-            systemMessage.put("role", "system");
-            systemMessage.put("content", "Você é um assistente virtual de uma clínica veterinária humanizada. " +
-                    "O usuário vai te dar um relato simples sobre o pet e o serviço desejado (" + servico + "). " +
-                    "Reescreva esse texto de forma educada, clara e profissional para ser enviado via WhatsApp à veterinária. " +
-                    "Seja direto, mantenha o tom de acolhimento e não inclua explicações extras, apenas o texto pronto para envio.");
-            messagesArray.add(systemMessage);
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // Mensagem do Utilizador
-            ObjectNode userMessage = objectMapper.createObjectNode();
-            userMessage.put("role", "user");
-            userMessage.put("content", "Serviço: " + servico + ". Relato do tutor: " + relatoCliente);
-            messagesArray.add(userMessage);
-
-            rootNode.set("messages", messagesArray);
-
-            // Executando a requisição POST
-            Response response = client.target(apiUrl)
-                    .request(MediaType.APPLICATION_JSON)
-                    .header("Authorization", "Bearer " + apiKey)
-                    .post(Entity.json(rootNode.toString()));
-
-            if (response.getStatus() == 200) {
-                String responseBody = response.readEntity(String.class);
-                // Extraindo o texto da resposta JSON da IA
-                var jsonNode = objectMapper.readTree(responseBody);
-                return jsonNode.get("choices").get(0).get("message").get("content").asText().trim();
-            } else {
-                return "Erro ao comunicar com a IA. Tente novamente mais tarde.";
+            if (response.statusCode() != 200) {
+                System.err.println("ERRO GROQ API [Status " + response.statusCode() + "]: " + response.body());
+                // Fallback seguro encapsulado no DTO
+                return new AnaliseResponse(relatoCliente);
             }
 
+            Map<String, Object> rootResponse = objectMapper.readValue(response.body(), Map.class);
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) rootResponse.get("choices");
+            Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+            String contentJson = (String) message.get("content");
+
+            return objectMapper.readValue(contentJson, AnaliseResponse.class);
+
         } catch (Exception e) {
+            System.err.println("EXCEÇÃO INTERNA NO GROQ SERVICE: " + e.getMessage());
             e.printStackTrace();
-            return "Erro interno ao processar a IA: " + e.getMessage();
+            // Fallback seguro em caso de falha
+            return new AnaliseResponse(relatoCliente);
         }
     }
 }

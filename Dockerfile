@@ -16,8 +16,10 @@ FROM eclipse-temurin:21-jre
 ENV LANGUAGE='en_US:en'
 WORKDIR /deployments
 
-
 EXPOSE 8080
 USER 185
+
+# Copia os arquivos gerados no estágio de build para o diretório de deployments do runtime
+COPY --from=build /project/target/quarkus-app/ /deployments/
 
 ENTRYPOINT ["java", "-Dquarkus.http.host=0.0.0.0", "-Djava.util.logging.manager=org.jboss.logmanager.LogManager", "-jar", "/deployments/quarkus-run.jar"]

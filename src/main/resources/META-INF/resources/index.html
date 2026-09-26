@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. | Aline Werneck - Especialidades Veterinárias</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vetLavender: '#f4eff8',
+                        vetPurpleDark: '#3b2238',
+                        vetPurpleMid: '#7a5275',
+                        vetAccent: '#bfa7bc'
+                    }
+                }
+            }
+        }
+
+        async function melhorarComIA() {
+            const input = document.getElementById('mensagemCliente');
+            const status = document.getElementById('aiStatus');
+
+            if (!input.value.trim()) {
+                alert("Escreva algo primeiro para a IA poder estruturar o texto!");
+                return;
+            }
+
+            status.textContent = "A Groq IA está a polir o texto...";
+
+            try {
+                const response = await fetch('/api/ia/polir', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        servico: servicoSelecionado,
+                        relato: input.value.trim()
+                    })
+                });
+
+                const data = await response.json();
+                if (data.textoPolido) {
+                    input.value = data.textoPolido;
+                    status.textContent = "Otimizado com sucesso!";
+                } else {
+                    status.textContent = "Erro ao gerar.";
+                }
+            } catch (error) {
+                status.textContent = "Falha na conexão com a IA.";
+            }
+
+            setTimeout(() => status.textContent = "", 4000);
+        }
+
+
+
+
+    </script>
+</head>
+<body class="bg-vetLavender text-vetPurpleDark font-sans antialiased selection:bg-vetPurpleMid selection:text-white">
+
+<!-- Header / Navbar Minimalista (Estilo Apple) -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-vetLavender/80 border-b border-vetAccent/20 px-8 py-4 flex justify-between items-center max-w-5xl mx-auto">
+
+    <div class="font-bold tracking-wider text-lg uppercase text-vetPurpleDark">
+        <h2 class="font-bold tracking-wide text-base text-vetPurpleDark">Dra. Aline Werneck</h2>
+        <p class="text-xs text-vetPurpleMid">CRMV: 51521-SP</p>
+    </div>
+    <div class="text-xs uppercase tracking-widest text-vetPurpleMid font-semibold">
+        🐾 Medicina Veterinária Especializada
+    </div>
+</header>
+
+<!-- Hero Section -->
+<main class="max-w-4xl mx-auto px-6 py-12 space-y-16">
+
+    <section class="text-space space-y-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-vetPurpleDark">
+            MEUS SERVIÇOS
+        </h1>
+        <p class="text-vetPurpleMid text-sm md:text-base italic tracking-wide">
+            "sempre com muito acolhimento e carinho."
+        </p>
+    </section>
+
+    <!-- Grid de Serviços (Estilo Clean / Apple Cards) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div onclick="selecionarServico('Consulta oncológica')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">🩺</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Consulta oncológica</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Avaliação especializada e direcionada</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Consulta clínica geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">🐾</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Consulta clínica geral</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Check-up e cuidados essenciais</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Cirurgia oncológica')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">🔬</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Cirurgia oncológica</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Precis和 segurança no procedimento</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Cirurgia geral')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">⚡</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Cirurgia geral</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Procedimentos cirúrgicos gerais</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Eletroquimioterapia')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">💡</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Eletroquimioterapia</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Tecnologia avançada de tratamento</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Quimioterapia convencional')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4">
+            <span class="text-3xl">🧬</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Quimioterapia convencional</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Protocolos individualizados</p>
+            </div>
+        </div>
+
+        <div onclick="selecionarServico('Ozonioterapia')" class="service-card cursor-pointer p-6 bg-white/60 hover:bg-white border border-vetAccent/30 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-4 md:col-span-2">
+            <span class="text-3xl">🌿</span>
+            <div>
+                <h3 class="font-semibold text-vetPurpleDark text-lg">Ozonioterapia</h3>
+                <p class="text-xs text-vetPurpleMid mt-0.5">Medicina integrativa e suporte regenerativo</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Seção de IA e WhatsApp (Estilo Minimalista) -->
+    <section class="bg-white/80 border border-vetAccent/30 p-6 md:p-8 rounded-3xl shadow-sm space-y-6">
+        <div class="space-y-2">
+            <label for="mensagemCliente" class="block text-sm font-semibold tracking-wide text-vetPurpleDark">
+                Conte um pouco sobre o caso do seu pet ou tire dúvidas:
+            </label>
+            <textarea id="mensagemCliente" rows="3" class="w-full p-4 bg-vetLavender/50 border border-vetAccent/40 rounded-2xl focus:ring-2 focus:ring-vetPurpleMid focus:outline-none text-sm text-vetPurpleDark placeholder-vetPurpleMid/50" placeholder="Ex: Gostaria de agendar uma avaliação para..."></textarea>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <button onclick="melhorarComIA()" class="w-full sm:w-auto px-5 py-2.5 bg-vetPurpleDark/10 text-vetPurpleDark rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-vetPurpleDark/20 transition flex items-center justify-center gap-2">
+                ✨ Polir texto com IA
+            </button>
+            <span id="aiStatus" class="text-xs text-vetPurpleMid italic"></span>
+        </div>
+
+        <button onclick="enviarParaWhatsApp()" class="w-full py-4 bg-vetPurpleDark hover:bg-black text-white font-medium rounded-2xl shadow-md transition flex justify-center items-center gap-2 text-sm uppercase tracking-wider">
+            💬 Continuar Atendimento no WhatsApp
+        </button>
+    </section>
+
+</main>
+
+<!-- JavaScript de Integração -->
+<script>
+    let servicoSelecionado = "Consulta clínica geral";
+
+    function selecionarServico(servico) {
+        servicoSelecionado = servico;
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.classList.remove('border-vetPurpleDark', 'bg-white', 'ring-2', 'ring-vetPurpleDark/20');
+        });
+        event.currentTarget.classList.add('border-vetPurpleDark', 'bg-white', 'ring-2', 'ring-vetPurpleDark/20');
+    }
+
+    function melhorarComIA() {
+        const input = document.getElementById('mensagemCliente');
+        const status = document.getElementById('aiStatus');
+
+        if (!input.value.trim()) {
+            alert("Escreva algo primeiro para a IA poder estruturar o texto!");
+            return;
+        }
+
+        status.textContent = "Aprimorando mensagem...";
+
+        setTimeout(() => {
+            input.value = `Olá! Gostaria de obter mais informações / agendar o serviço de ${servicoSelecionado}. Histórico/Relato: ${input.value.trim()}`;
+            status.textContent = "Pronto!";
+            setTimeout(() => status.textContent = "", 3000);
+        }, 700);
+    }
+
+    function enviarParaWhatsApp() {
+        const telefoneClinica = "5511999999999"; // Substituir pelo número correto
+        const mensagemBase = document.getElementById('mensagemCliente').value;
+
+        const textoFinal = encodeURIComponent(
+            `Olá! Acessei o site.\n\n*Serviço de interesse:* ${servicoSelecionado}\n*Detalhes:* ${mensagemBase || 'Gostaria de agendar um atendimento.'}`
+        );
+
+        window.open(`https://wa.me/${telefoneClinica}?text=${textoFinal}`, '_blank');
+    }
+</script>
+</body>
+</html>

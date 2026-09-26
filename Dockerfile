@@ -6,7 +6,7 @@ WORKDIR /project
 RUN apt-get update && apt-get install -y git
 
 # Clona o seu repositório diretamente para dentro da pasta de trabalho
-RUN git clone https://github.com/LeynnerRoque/consulting-ai-mining.git .
+RUN git clone https://github.com/LeynnerRoque/wrk-vet-sis.git .
 
 # Executa o empacotamento do Quarkus
 RUN mvn clean package -DskipTests
